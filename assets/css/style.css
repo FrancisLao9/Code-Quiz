@@ -1,0 +1,18 @@
+button{
+    background: purple;
+    border-radius: 5px;
+    font-size: 24px;
+    padding: 20px;
+}
+
+.high-score{
+    text-align: left;
+}
+
+.timer{
+    text-align: right;
+}
+
+.center-display{
+    text-align: center;
+}
