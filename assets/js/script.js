@@ -7,8 +7,7 @@ var questionScreen = document.querySelector("#question-screen");
 var highScoreButton = document.querySelector(".high-score");
 var backButton = document.querySelector(".goBack");
 var rightWrong = document.querySelector(".right-wrong");
-
-//
+//Gather elements for quiz display
 var questionEl = document.getElementById("questionSlot");
 var buttonsEl = document.getElementById("answerButtons");
 var button1 = document.querySelector(".btn1");
@@ -16,100 +15,126 @@ var button2 = document.querySelector(".btn2");
 var button3 = document.querySelector(".btn3");
 var button4 = document.querySelector(".btn4");
 
+//Gather elements for displaying post-quiz section
+var quizEnd = document.querySelector("#post-quiz");
+var endScore = document.getElementById(".end-score");
+var enterScoreButton = document.querySelector(".enter-score");
+var initials = document.querySelector("#initials");
+var scoreSet = document.querySelector("#scores");
+
 //Setting variables for functions
 var timer;
 var timerCount;
 //Variables for keeping track and averaging out scores
-var winCount = 0;
-var lossCount = 0;
+var totalScore;
 var questionNum;
-var collectQuestion = [];
+var option1;
+var option2;
+var option3;
+var option4;
 
 let questions = [
-    { //Creating questions to display for quiz
-    question: "This is Question 1",
-    answer: [{text: "Correct", isCorrect: false},
-             {text: "Incorrect", isCorrect: false},
-             {text: "Incorrect", isCorrect: false},
-             {text: "Incorrect", isCorrect: true},
-    ]
-},{
-    question: "String variables must be enclosed in ___ when being assigned to variables.",
-    answer: [{text: "Curly Brackets", isCorrect: false},
-             {text: "Quotes", isCorrect: true},
-             {text: "Parenthesis", isCorrect: false},
-             {text: "Integers", isCorrect: false},
-    ]
-},{
-    question: "Commonly used data types do NOT include:",
-    answer: [{text: "Boolean", isCorrect: false},
-             {text: "String", isCorrect: false},
-             {text: "Alert", isCorrect: true},
-             {text: "Numbers", isCorrect: false},
-    ]
-},{
-    question: "Arrays in JavaScript can be used to store:",
-    answer: [{text: "Numbers and Strings", isCorrect: false},
-             {text: "Other Arrays", isCorrect: false},
-             {text: "Booleans", isCorrect: false},
-             {text: "All of the Above", isCorrect: true},
-    ]
-},{
-    question: "The condition in an if/else statement is enclosed with ___.",
-    answer: [{text: "Quotes", isCorrect: false},
-             {text: "Curly Brackets", isCorrect: false},
-             {text: "Parenthesis", isCorrect: true},
-             {text: "Square Brackets", isCorrect: false},
-    ]
-}
+    "Which one isn't a feature of JavaScript?",
+    "String variables must be enclosed in ___ when being assigned to variables.",
+    "Commonly used data types do NOT include:",
+    "Arrays in JavaScript can be used to store:",
+    "The condition in an if/else statement is enclosed with ___."
+];
+let choices = [
+    ["Lightweight & Interpreted","Person-Centric","Integrated","Open & Cross platform"],
+    ["Curly Brackets","Quotes","Parenthesis","Integers"],
+    ["Boolean","String","Alert","Numbers"],
+    ["Numbers and Strings","Other Arrays","Booleans","All of the Above"],
+    ["Quotes","Curly Brackets","Parenthesis","Square Brackets"]
+];
+let answers = [
+    "Person-Centric",
+    "Quotes",
+    "Alert",
+    "All of the Above",
+    "Parenthesis"
 ];
 
 function gameStart() { //Function for when the game starts
     startScreen.classList.add('hide'); //switching the hide class between center-display and options
     questionScreen.classList.remove('hide');
-    timerCount = 20; //setting the timer for 20 seconds
+    timerCount = 60; //setting the timer for 60 seconds
     questionNum = 0;
 
     startTimer();
     setQuestion();
 }
-
 function setQuestion() {
-    displayQuestion(questions[questionNum]);
+    displayQuestion(questionNum);
 }
 
-function displayQuestion(questions) {
-    questionEl.innerText = questions.question;
-    button1.innerText = questions.answer[0].text;
-    button2.innerText = questions.answer[1].text;
-    button3.innerText = questions.answer[2].text;
-    button4.innerText = questions.answer[3].text;
-
-    button1.addEventListener("click", selectAnswer(questions.answer));
-    button2.addEventListener("click", selectAnswer(questions.answer));
-    button3.addEventListener("click", selectAnswer(questions.answer));
-    button4.addEventListener("click", selectAnswer(questions.answer));
+function displayQuestion(x) {
+    questionEl.innerText = questions[x];
+    button1.innerText = choices[x][0];
+    button2.innerText = choices[x][1];
+    button3.innerText = choices[x][2];
+    button4.innerText = choices[x][3];
 }
-
-function selectAnswer(){
-    if (questions.answer == true){
+//Setting buttons outside of the functions
+button1.addEventListener("click", function(){
+    if (choices[questionNum][0] == answers[questionNum]){
         rightWrong.innerText = "Correct!";
-    } else if (questions.answer == false){
+    } else if (choices[questionNum][0] !== answers[questionNum]){
         rightWrong.innerText = "Incorrect...";
+        timerCount -= 10;
     }
+    nextQuestion();
+    });
+button2.addEventListener("click", function(){
+    if (choices[questionNum][1] == answers[questionNum]){
+        rightWrong.innerText = "Correct!";
+    } else if (choices[questionNum][1] !== answers[questionNum]){
+        rightWrong.innerText = "Incorrect...";
+        timerCount -= 10;
+    }
+    nextQuestion();
+    });
+button3.addEventListener("click", function(){
+    if (choices[questionNum][2] == answers[questionNum]){
+        rightWrong.innerText = "Correct!";
+    } else if (choices[questionNum][2] !== answers[questionNum]){
+        rightWrong.innerText = "Incorrect...";
+        timerCount -= 10;
+    }
+    nextQuestion();
+    });
+button4.addEventListener("click", function(){
+    if (choices[questionNum][3] == answers[questionNum]){
+        rightWrong.innerText = "Correct!";
+    } else if (choices[questionNum][3] !== answers[questionNum]){
+        rightWrong.innerText = "Incorrect...";
+        timerCount -= 10;
+    }
+    nextQuestion();
+    });
+
+function nextQuestion(){ //Will either transition to next question or end the game if condition is met
     questionNum++;
-    setQuestion(questions[questionNum]);
+    if (questionNum >= questions.length) {
+        gameClear();
+    } else {
+        displayQuestion(questionNum);
+    }
 }
 
 function gameClear() { //When game ends by either win condition or timer
-    
+    questionScreen.classList.add('hide');
+    quizEnd.classList.remove('hide');
+    totalScore = timerCount;
+    timerCount = 0;
+    endScore.innerText = "Your Score: "+totalScore;
 }
 //High Score List Functions
 function highScoreList() { //When View-High-Score is clicked OR after gameClear
  startScreen.classList.add('hide');
  highScoreScreen.classList.remove('hide');
  highScoreButton.classList.add('hide');
-
+ quizEnd.classList.add('hide');
 }
 function goBackButton() {//switching the hide class between functions to display the original screen
     startScreen.classList.remove('hide');
@@ -118,24 +143,28 @@ function goBackButton() {//switching the hide class between functions to display
 }
 
 //startTimer activates a timer for when the quiz starts
-function startTimer() {
+function startTimer(totalScore) {
     //Setting Timer
     timer = setInterval(function() {
         timerCount--;
         timeEl.textContent = timerCount;
-        //if (timerCount >= 0) {
-        //    //if win/loss condition is met
-        //    clearInterval(timer);
-        //    gameClear();
-        //}
-        if (timerCount === 0){
-            //When time runs out
+        if (timerCount <= 0){
+            //When time runs out, store score and open quiz-end portion
+            timerCount = 0
             clearInterval(timer);
             gameClear();
         }
     }, 1000); //1000 milliseconds in 1 second
 }
 
+function saveScore(){
+    var init = document.querySelector("#initials").ariaValueMax;
+    totalScore = timerCount.value;
+    var setScore = init+totalScore;
+    localStorage.setItem("scores", setScore);
+}
+
 backButton.addEventListener("click", goBackButton);
 startButton.addEventListener("click", gameStart);
 highScoreButton.addEventListener("click", highScoreList);
+enterScoreButton.addEventListener("click", saveScore);
