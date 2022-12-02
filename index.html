@@ -1,47 +1,58 @@
 <!DOCTYPE html>
-<html lang = "en">
-  <head>
-    <title>Coding Quiz</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
-  </head>
+<html lang="en">
+
+<head>
+  <title>Coding Quiz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+</head>
 <!--Display for the high-score option and the timer-->
-  <body>
-    <header>
+
+<body>
+  <header>
     <div>
-        <button class = "high-score">View High Score</button>
-        <div class = "timer">
-            <ul>Time: </ul>
-            <div class="timerEl">0</div>
-        </div>
+      <button class="high-score">View High Score</button>
+      <div class="timer">
+        <ul>Time: </ul>
+        <div class="timerEl">0</div>
+      </div>
     </div>
-    </header>
-<!--Section for both the Quiz button and the area for the test itself-->
-    <div class = container>
-      <div id="question-screen" class="hide">
-        <h1 id = "questionSlot">Question</h1>
-          <div id="answerButtons" class="button-grid">
-        
+  </header>
+  <!--Section for both the Quiz button and the area for the test itself-->
+  <div class=container>
+    <div id="question-screen" class="hide">
+      <h1 id="questionSlot">Question</h1>
+      <div id="answerButtons" class="button-grid">
         <button class="btn1">Button1</button>
         <button class="btn2">Button2</button>
         <button class="btn3">Button3</button>
         <button class="btn4">Button4</button>
-        <h2 class = right-wrong>Blank Spot</h2>
-          </div>
+        <h2 class="right-wrong">Blank Spot</h2>
       </div>
+    </div>
+    <!--Screen for when the quiz finishes (either by time or questions being completed)-->
+    <div id="post-quiz" class="hide">
+      <h1 id="end-score"></h1>
+      <h2>Enter your initials:</h2>
+      <input type = "text" id="initials" placeholder="AB"/>
+      <button class="enter-score">Enter</button>
+    </div>
     <div id="highScoreScreen" class="hide">
-        <div id="highScoreTitle">High Scores:</div>
-        <!--Insert Text Box for Scores here-->
-        <button class="goBack">Go Back</button>
-        <button class="clearScore">Clear Scores</button>
+      <div id="highScoreTitle">High Scores:</div>
+      <!--Insert Text Box for Scores here-->
+      <input type = "text" id = "scores" readonly />
+      <button class="goBack">Go Back</button>
+      <button class="clearScore">Clear Scores</button>
     </div>
-      <div class = "center-display">
-        <h1>Coding Quiz Challenge</h1>
-        <h2>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</h2>
-        <button class="quizStart">Start Quiz</button>
-      </div>
+    <div class="center-display">
+      <h1>Coding Quiz Challenge</h1>
+      <h2>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers
+        will penalize your score/time by ten seconds!</h2>
+      <button class="quizStart">Start Quiz</button>
     </div>
-    <script src="assets/js/script.js"></script>
-  </body>
-  </html>
+  </div>
+  <script src="assets/js/script.js"></script>
+</body>
+
+</html>
